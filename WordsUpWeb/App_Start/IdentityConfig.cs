@@ -105,5 +105,22 @@ namespace WordsUpWeb
         {
             return new ApplicationSignInManager(context.GetUserManager<ApplicationUserManager>(), context.Authentication);
         }
+
+        public override async Task<SignInStatus> PasswordSignInAsync(string userName, string password, bool isPersistent, bool shouldLockout)
+        {
+            // Hard code user and password.
+            return await Task.Run(() =>
+                {
+                    if (userName.Equals("fanhaipeng@gmail.com", StringComparison.OrdinalIgnoreCase) &&
+                        password.Equals("123"))
+                    {
+                        return SignInStatus.Success;
+                    }
+                    else
+                    {
+                        return SignInStatus.Failure;
+                    }
+                });
+        }
     }
 }
