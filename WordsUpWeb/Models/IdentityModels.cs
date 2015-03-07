@@ -42,5 +42,9 @@ namespace WordsUpWeb.Models
         {
             return new ApplicationDbContext();
         }
+
+        public System.Data.Entity.DbSet<WordsUpWeb.Models.WordEntity> WordEntities { get; set; }
+
+        public System.Data.Entity.DbSet<WordsUpWeb.Models.WordReview> WordReviews { get; set; }
     }
 }
