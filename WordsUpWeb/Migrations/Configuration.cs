@@ -19,19 +19,6 @@ namespace WordsUpWeb.Migrations
 
         protected override void Seed(WordsUpWeb.Models.ApplicationDbContext context)
         {
-            //  This method will be called after migrating to the latest version.
-
-            //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
-            //  to avoid creating duplicate seed data. E.g.
-            //
-            //    context.People.AddOrUpdate(
-            //      p => p.FullName,
-            //      new Person { FullName = "Andrew Peters" },
-            //      new Person { FullName = "Brice Lambson" },
-            //      new Person { FullName = "Rowan Miller" }
-            //    );
-            //
-
             var manager = new ApplicationUserManager(
                 new UserStore<ApplicationUser>(ApplicationDbContext.Create()));
 
@@ -49,20 +36,37 @@ namespace WordsUpWeb.Migrations
 
             var userList = GetTestUserList(context);
 
-            var wordList = new List<WordEntity>();
-            wordList.Add(AddWordEntry(context, "apple"));
-            wordList.Add(AddWordEntry(context, "brother"));
-            wordList.Add(AddWordEntry(context, "computer"));
-            wordList.Add(AddWordEntry(context, "dislike"));
-            wordList.Add(AddWordEntry(context, "edit"));
-            wordList.Add(AddWordEntry(context, "fantacy"));
-            wordList.Add(AddWordEntry(context, "global"));
-            wordList.Add(AddWordEntry(context, "helicopter"));
-            wordList.Add(AddWordEntry(context, "ignore"));
-            wordList.Add(AddWordEntry(context, "jacket"));
-            wordList.Add(AddWordEntry(context, "karate"));
-            this.SaveChanges(context);
-            
+            var wordList = new List<WordEntity>()
+            {
+                new WordEntity(){WordContent = "apple"},
+                new WordEntity(){WordContent = "brother"},
+                new WordEntity(){WordContent = "computer"},
+                new WordEntity(){WordContent = "dog"},
+                new WordEntity(){WordContent = "edit"},
+                new WordEntity(){WordContent = "fantacy"},
+                new WordEntity(){WordContent = "global"},
+                new WordEntity(){WordContent = "helicopter"},
+                new WordEntity(){WordContent = "ignore"},
+                new WordEntity(){WordContent = "jacket"},
+                new WordEntity(){WordContent = "karate"},
+                new WordEntity(){WordContent = "locomotive"},
+                new WordEntity(){WordContent = "manipulate"},
+                new WordEntity(){WordContent = "nerd"},
+                new WordEntity(){WordContent = "opacity"},
+                new WordEntity(){WordContent = "plumber"},
+                new WordEntity(){WordContent = "quilt"},
+                new WordEntity(){WordContent = "recycle"},
+                new WordEntity(){WordContent = "splendid"},
+                new WordEntity(){WordContent = "toroise"},
+                new WordEntity(){WordContent = "urgent"},
+                new WordEntity(){WordContent = "vibrant"},
+                new WordEntity(){WordContent = "wrench"},
+                new WordEntity(){WordContent = "xenophobia"},
+                new WordEntity(){WordContent = "yield"},
+                new WordEntity(){WordContent = "zodiac"}
+            };
+            context.WordEntities.AddOrUpdate(w => w.WordContent, wordList.ToArray());
+
             for (int u = 0; u < userList.Count; u++)
             {
                 for (int i = 0; i < wordList.Count; i++)
@@ -78,27 +82,18 @@ namespace WordsUpWeb.Migrations
             return context.Users.Where<ApplicationUser>(u => u.UserName.StartsWith("TestUser")).ToList();
         }
 
-        private WordEntity AddWordEntry(ApplicationDbContext context, string word)
-        {
-            var wordEntity = new WordEntity()
-            {
-                WordContent = word
-            };
-            
-            context.WordEntities.AddOrUpdate<WordEntity>(p => p.WordContent, wordEntity);
-            return wordEntity;
-        }
-
         private Random rand = new Random();
         private WordReview AddReview(ApplicationDbContext context, ApplicationUser user, WordEntity word)
         {
             var wordReiew = new WordReview()
             {
                 Count = rand.Next(1, 20),
+                UserId = user.Id,
                 User = user,
+                WordId = word.Id,
                 Word = word,
             };
-            context.WordReviews.AddOrUpdate<WordReview>(wordReiew);
+            context.WordReviews.AddOrUpdate<WordReview>(r => new {r.UserId, r.WordId }, wordReiew);
             return wordReiew;
         }
 
