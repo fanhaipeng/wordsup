@@ -204,7 +204,12 @@
     <Compile Include="Migrations\201503012120544_AddReviewSet.Designer.cs">
       <DependentUpon>201503012120544_AddReviewSet.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201503081900318_ChangeReviewId.cs" />
+    <Compile Include="Migrations\201503081900318_ChangeReviewId.Designer.cs">
+      <DependentUpon>201503081900318_ChangeReviewId.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Migrations\FormattedDbEntityValidationException.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -220,6 +225,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Migrations\SQLScript.sql" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config" />
@@ -281,6 +287,7 @@
     <Content Include="Views\WordReviews\Details.cshtml" />
     <Content Include="Views\WordReviews\Edit.cshtml" />
     <Content Include="Views\WordReviews\Index.cshtml" />
+    <Content Include="Views\Home\ReviewPane.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -298,6 +305,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201503012120544_AddReviewSet.resx">
       <DependentUpon>201503012120544_AddReviewSet.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201503081900318_ChangeReviewId.resx">
+      <DependentUpon>201503081900318_ChangeReviewId.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
