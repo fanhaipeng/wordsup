@@ -1,10 +1,12 @@
-﻿@{
+﻿@model IList<WordsUpWeb.Models.WordReview>
+
+@{
     ViewBag.Title = "边学边用 - 背单词";
 }
 
 @if (Request.IsAuthenticated)
 {
-    @Html.Partial("ReviewPane")
+    @Html.Partial("ReviewPane", Model)
 }
 else
 {

@@ -19,6 +19,11 @@ namespace WordsUpWeb.Migrations
 
         protected override void Seed(WordsUpWeb.Models.ApplicationDbContext context)
         {
+            if (System.Diagnostics.Debugger.IsAttached == false)
+            {
+                System.Diagnostics.Debugger.Launch();
+            }
+
             var manager = new ApplicationUserManager(
                 new UserStore<ApplicationUser>(ApplicationDbContext.Create()));
 
@@ -26,7 +31,7 @@ namespace WordsUpWeb.Migrations
             {
                 var user = new ApplicationUser()
                 {
-                    UserName = string.Format("TestUser{0}", i),
+                    UserName = string.Format("user{0}@example.com", i),
                     Email = string.Format("user{0}@example.com", i),
                     FirstName = string.Format("FirstName{0}", i),
                     LastName = string.Format("LastName{0}", i)
@@ -79,7 +84,7 @@ namespace WordsUpWeb.Migrations
 
         private IList<ApplicationUser> GetTestUserList(ApplicationDbContext context)
         {
-            return context.Users.Where<ApplicationUser>(u => u.UserName.StartsWith("TestUser")).ToList();
+            return context.Users.Where<ApplicationUser>(u => u.UserName.EndsWith("example.com")).ToList();
         }
 
         private Random rand = new Random();

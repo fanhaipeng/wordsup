@@ -1,9 +1,18 @@
-﻿<div>
+﻿@model IList<WordsUpWeb.Models.WordReview>
+
+<div>
     <div>
         @using (Html.BeginForm())
         {
             @Html.TextBox("add_new");
             <input type="submit" value="添加" />
         }
+
+        <ul>
+        @foreach (var w in Model)
+        {
+            <div>@w.Word.WordContent</div>;
+        }
+        </ul>
     </div>
 </div>
