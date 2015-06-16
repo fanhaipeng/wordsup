@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -21,15 +22,19 @@ namespace WordsUpWeb.Controllers
             this.userManager = new ApplicationUserManager(new UserStore<ApplicationUser>(context)); 
         }
 
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
             if (Request.IsAuthenticated)
             {
-                var context = ApplicationDbContext.Create();
-                var currentUser = userManager.FindByNameAsync(User.Identity.Name);
+                var currentUser = await userManager.FindByNameAsync(User.Identity.Name);
 
-                var reviewList = context.WordReviews.Where(p => p.UserId == currentUser.Result.Id.ToString()).OrderBy(p => p.Count).ToList();
-                return View(reviewList);
+                var reviewViewModel= this.CreateWordReviewViewModel(
+                    this.context.WordReviews.
+                         Where(p => p.UserId == currentUser.Id.ToString()).
+                         OrderByDescending(p => p.Count).
+                         Take(10).
+                         ToArray());
+                return View(reviewViewModel);
             }
             else
             {
@@ -49,6 +54,18 @@ namespace WordsUpWeb.Controllers
             ViewBag.Message = "Your contact page.";
 
             return View();
+        }
+
+        public IEnumerable<WordReviewViewModel> CreateWordReviewViewModel(IEnumerable<WordReview> wordList)
+        {
+            foreach (var w in wordList)
+            {
+                yield return new WordReviewViewModel()
+                {
+                    WordContent = w.Word.WordContent,
+                    ReviewCount = w.Count,
+                };
+            }
         }
     }
 }

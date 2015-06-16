@@ -22,3 +22,7 @@ select,
 textarea {
     max-width: 280px;
 }
+
+table#review_pane td {
+    padding: 4px 10px;
+}

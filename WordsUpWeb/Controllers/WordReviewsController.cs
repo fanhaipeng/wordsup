@@ -18,7 +18,8 @@ namespace WordsUpWeb.Controllers
         // GET: WordReviews
         public async Task<ActionResult> Index()
         {
-            return View(await db.WordReviews.ToListAsync());
+            var wordList = await db.WordReviews.OrderByDescending(w => w.Count).Take(20).ToArrayAsync();
+            return View(wordList);
         }
 
         // GET: WordReviews/Details/5

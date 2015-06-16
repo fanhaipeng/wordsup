@@ -1,4 +1,4 @@
-﻿@model IList<WordsUpWeb.Models.WordReview>
+﻿@model IEnumerable<WordsUpWeb.Models.WordReviewViewModel>
 
 <div>
     <div>
@@ -8,11 +8,17 @@
             <input type="submit" value="添加" />
         }
 
-        <ul>
+        
+        <table id="review_pane">
         @foreach (var w in Model)
         {
-            <div>@w.Word.WordContent</div>;
+            <tr>
+                <td>@w.WordContent<td/>
+                <td>@w.ReviewCount<td/>
+                <td><a href="">学会一次</a></td>
+                <td><a href="">查字典</a></td>
+            </tr>
         }
-        </ul>
+        </table>
     </div>
 </div>

@@ -215,6 +215,7 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\WordEntity.cs" />
     <Compile Include="Models\WordReview.cs" />
+    <Compile Include="Models\WordReviewViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
