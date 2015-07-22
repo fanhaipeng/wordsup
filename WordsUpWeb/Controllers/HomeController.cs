@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -12,6 +13,8 @@ namespace WordsUpWeb.Controllers
 {
     public class HomeController : Controller
     {
+        private const int ItemPerPage = 10;
+
         private ApplicationUserManager userManager;
 
         private ApplicationDbContext context;
@@ -22,18 +25,16 @@ namespace WordsUpWeb.Controllers
             this.userManager = new ApplicationUserManager(new UserStore<ApplicationUser>(context)); 
         }
 
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index(int? id)
         {
             if (Request.IsAuthenticated)
             {
+                var pageId = id == null ? 0 : id;
                 var currentUser = await userManager.FindByNameAsync(User.Identity.Name);
+                var reviewViewModel = new WordReviewViewModel(
+                    this.context.WordReviews.Where(p => p.UserId == currentUser.Id.ToString()).OrderByDescending(p => p.Count),
+                    (int)pageId);
 
-                var reviewViewModel= this.CreateWordReviewViewModel(
-                    this.context.WordReviews.
-                         Where(p => p.UserId == currentUser.Id.ToString()).
-                         OrderByDescending(p => p.Count).
-                         Take(10).
-                         ToArray());
                 return View(reviewViewModel);
             }
             else
@@ -54,18 +55,6 @@ namespace WordsUpWeb.Controllers
             ViewBag.Message = "Your contact page.";
 
             return View();
-        }
-
-        public IEnumerable<WordReviewViewModel> CreateWordReviewViewModel(IEnumerable<WordReview> wordList)
-        {
-            foreach (var w in wordList)
-            {
-                yield return new WordReviewViewModel()
-                {
-                    WordContent = w.Word.WordContent,
-                    ReviewCount = w.Count,
-                };
-            }
         }
     }
 }

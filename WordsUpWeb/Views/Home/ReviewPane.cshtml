@@ -1,4 +1,4 @@
-﻿@model IEnumerable<WordsUpWeb.Models.WordReviewViewModel>
+﻿@model WordsUpWeb.Models.WordReviewViewModel
 
 <div>
     <div>
@@ -10,15 +10,34 @@
 
         
         <table id="review_pane">
-        @foreach (var w in Model)
+        @foreach (var w in Model.ReviewSet)
         {
             <tr>
-                <td>@w.WordContent<td/>
-                <td>@w.ReviewCount<td/>
+                <td>@w.Word.WordContent<td/>
+                <td>@w.Count<td/>
                 <td><a href="">学会一次</a></td>
                 <td><a href="">查字典</a></td>
             </tr>
         }
         </table>
+        <div>
+            @if (Model.PreviousPageId == null)
+            {
+                @:上一页
+            }
+            else
+            {
+                @Html.ActionLink("上一页", "Index", new { id = Model.PreviousPageId })
+            }
+
+            @if(Model.NextPageId == null)
+            {
+                @:下一页
+            }
+            else
+            { 
+                 @Html.ActionLink("下一页", "Index", new { id = Model.NextPageId })
+            }
+        </div>
     </div>
 </div>
